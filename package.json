@@ -1,0 +1,22 @@
+{
+  "name": "geca-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Mohammad Ummair",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "fs": "0.0.1-security",
+    "hbs": "^4.0.2",
+    "multer": "^1.4.1",
+    "random-number": "0.0.9",
+    "round-to": "^3.0.0",
+    "xlsx": "^0.14.1"
+  }
+}
