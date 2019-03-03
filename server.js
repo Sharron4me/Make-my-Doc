@@ -8,6 +8,7 @@ const fs = require('fs');
 const rn = require('random-number');
 const multer = require('multer');
 
+const port = process.env.PORT || 3000;
 
 var app = express();
 app.use(cookieParser());
@@ -309,8 +310,6 @@ hbs.registerHelper('COUNTER_TABLE', function(co_num) {
 });
 
 
-console.log("Server running on 3000!");
-
 app.get('/',function(req,res){
 
   res.render('practical_page.hbs',{
@@ -432,4 +431,6 @@ app.post('/preresult', function(req, res) {
 })
 
 
-app.listen(3000);
+app.listen(port,()=>{
+  console.log(`Server running on ${port}! `);
+});
