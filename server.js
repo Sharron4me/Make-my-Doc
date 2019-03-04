@@ -232,9 +232,8 @@ hbs.registerHelper('table', function(count_table,co_num,file_name,co_level,co_ma
     if(co_num>0){
       console.log('Download/Download'+num+'.csv');
       str+='<input type="text" value="'+num+'" name="file_name" style="display:none;">'
-      str+='<div class="btn_box"><a href="data:text/csv" download="'+__dirname+'/Download/Download'+num+'.csv'+'">Download</a></div>';
-      console.log(__dirname+'/Download/Download'+num+'.csv');
-    }
+      str+=`<div class="btn_box"><input type="submit" class="submit_btn" value="Download CSV File" onclick = "javascript:form.action='/down';"></div>`;
+      }
   console.log("Error Not here:5");
   return new hbs.SafeString (str);
 });
