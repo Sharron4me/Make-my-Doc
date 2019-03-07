@@ -3,18 +3,18 @@
   <div clas="table_info">
       {{#if co_num}}
         <form action="'+{{file_path}}+'" method="post">
-        {{table count_table co_num file_name CO_level CO_mark1 CO_mark2 CO_mark3}}
+        {{tablePractical count_table co_num file_name CO_level CO_mark1 CO_mark2 }}
         <div class="btn_box"><button type="submit" class="submit_btn"> Download File</button></div>
       {{else}}
-        <form action="/result" method="post">
-        {{table count_table co_num file_name CO_level CO_mark1 CO_mark2 CO_mark3 file_path}}
+        <form action="/resultPractical" method="post">
+        {{tablePractical  count_table co_num file_name CO_level CO_mark1 CO_mark2 file_path}}
         <div class="btn_box"><button type="submit" class="submit_btn"> Generate</button></div>
       {{/if}}
     </form>
   </div>
 {{else}}
   <div class="input_form">
-    <form action = "/input" method="post">
+    <form action = "/inputPractical" method="post">
       <label for="count">Enter Course Code</label>
       <input type="text" id="course_code_id" name="course_code" required><br>
       <label for="count">Enter Course Name</label>
@@ -27,8 +27,7 @@
     </form>
   </div>
   <form action="/down" method="post">
-    <input type="text" value="Sample_theory" name="file_name" style="display:none;">
+    <input type="text" value="Sample_practical" name="file_name" style="display:none;">
     <div class="btn_box"><input type="submit" class="submit_btn" value="Download Sample CSV File" onclick = "javascript:form.action='/down';"></div>
   </form>
-
 {{/if}}
