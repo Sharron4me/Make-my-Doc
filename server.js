@@ -147,6 +147,14 @@ hbs.registerHelper('table', function(count_table,co_num,file_name,co_level,co_ma
   for (var i = 0; i < (Number(count_table)+3); i++ ) {
     str += '<tr>';
       if(i<count_table){
+
+
+        if(typeof data[i]['Enrollment No'] =='undefined' || typeof data[i]['Name of Student'] =='undefined'|| typeof data[i]['CT'] =='undefined'|| typeof data[i]['TA'] =='undefined'|| typeof data[i]['ESE'] =='undefined')
+        {
+          var response_error='<h3><center>Oops! Incorrect Format of file!!<br>Please refer the sample file on home page<br>Check the coloumn names</center></h3>';
+          return new hbs.SafeString (response_error);
+        }
+
         str += '<td>' + '<input type="text"   id="RollNo'+i+'" name="RollNo'+i+'" value="'+data[i]['Enrollment No']+'" required>' + '</td>' ;
         data[i]['Enrollment No'] = data[i]['Enrollment No'].trim();
         var data_main= data[i]['Enrollment No']+",";
@@ -181,6 +189,7 @@ hbs.registerHelper('table', function(count_table,co_num,file_name,co_level,co_ma
       }
       for (var j = 1; j <=co_num; j++ ) {
         if(i<count_table){
+
             str += '<td>' + '<input type="number"  min=0 max=100 id="CO'+j+'CT'+i+'" name="CO'+j+'CT'+i+'" value="'+(data[i]['CT']-0)*(roundTo(co_mark1[j]/co_mark1[0],2))+'"  disabled>' + '</td>';
             data_main+=roundTo((data[i]['CT']-0)*(roundTo(co_mark1[j]/co_mark1[0],2)),2)+",";
 
@@ -281,146 +290,150 @@ hbs.registerHelper('tablePractical', function(count_table,co_num,file_name,co_le
   const sheet_name_list = workbook.SheetNames;
   var data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
-  var str = '<table border = "1" cellpadding = "2" cellspacing = "1">';
-  str+='<tr>'
-      str+='<th colspan ="4" rowspan="2">Students</th>'
-      var header = ","+"Student"+","+",";
-      console.log("COUNT-TABLE:"+count_table);
-      console.log(co_mark1);
-      console.log(co_mark2);
-      for (var i = 1; i <=co_num; i++ ) {
-          str+='<th colspan="2">CO'+i+'</th>'
-          header+= ",,"+"CO"+i+",";
-          var added=(co_mark1[i]-0)+(co_mark2[i]-0);
-          str+='<th>'+roundTo((added*(co_level[i-1]/100)),2)+'</th>'
-          threshold.push(roundTo((added*(co_level[i-1]/100)),2)-0.1);
-          header+=roundTo((added*(co_level[i-1]/100)),2);
-      }
-      header+="\n"
-      header += ","+","+","+",";
-    str+='</tr>'
-  str+='<tr>'
-  console.log("Error Not here:2");
-  for (var i = 1; i <=co_num; i++ ) {
-    str+='<th>TW</th>'
-    header+="TW"+",";
-    str+='<th>Practical</th>'
-    header+="Practical"+",";
-    str+='<th>'+co_level[i-1]+'%</th>'
-    header+=co_level[i-1]+"%,";
-  }
-  header+="\n";
-  console.log("Error Not here:3");
-  str+='<tr>'
-      str+='<th>Roll Number</th>'
-      header+="Roll Number"+",";
-      str+='<th>Student Name</th>'
-      header+="Student Name"+",";
-      str+='<th>CT</th>'
+    var str = '<table border = "1" cellpadding = "2" cellspacing = "1">';
+    str+='<tr>'
+        str+='<th colspan ="4" rowspan="2">Students</th>'
+        var header = ","+"Student"+","+",";
+        console.log("COUNT-TABLE:"+count_table);
+        console.log(co_mark1);
+        console.log(co_mark2);
+        for (var i = 1; i <=co_num; i++ ) {
+            str+='<th colspan="2">CO'+i+'</th>'
+            header+= ",,"+"CO"+i+",";
+            var added=(co_mark1[i]-0)+(co_mark2[i]-0);
+            str+='<th>'+roundTo((added*(co_level[i-1]/100)),2)+'</th>'
+            threshold.push(roundTo((added*(co_level[i-1]/100)),2)-0.1);
+            header+=roundTo((added*(co_level[i-1]/100)),2);
+        }
+        header+="\n"
+        header += ","+","+","+",";
+      str+='</tr>'
+    str+='<tr>'
+    console.log("Error Not here:2");
+    for (var i = 1; i <=co_num; i++ ) {
+      str+='<th>TW</th>'
       header+="TW"+",";
       str+='<th>Practical</th>'
       header+="Practical"+",";
+      str+='<th>'+co_level[i-1]+'%</th>'
+      header+=co_level[i-1]+"%,";
+    }
+    header+="\n";
+    console.log("Error Not here:3");
+    str+='<tr>'
+        str+='<th>Roll Number</th>'
+        header+="Roll Number"+",";
+        str+='<th>Student Name</th>'
+        header+="Student Name"+",";
+        str+='<th>CT</th>'
+        header+="TW"+",";
+        str+='<th>Practical</th>'
+        header+="Practical"+",";
 
-      for (var i = 1; i <=co_num; i++ ) {
-        str+='<th>'+roundTo(co_mark1[i]/co_mark1[0],2)+'</th>'
-        header+=roundTo(co_mark1[i]/co_mark1[0],2)+",";
-        str+='<th>'+roundTo(co_mark2[i]/co_mark2[0],2)+'</th>'
-        header+=roundTo(co_mark2[i]/co_mark2[0],2)+",";
-        var added=(co_mark1[i]-0)+(co_mark2[i]-0);
-        console.log(added);
-        str+='<th>'+added+'</th>'
+        for (var i = 1; i <=co_num; i++ ) {
+          str+='<th>'+roundTo(co_mark1[i]/co_mark1[0],2)+'</th>'
+          header+=roundTo(co_mark1[i]/co_mark1[0],2)+",";
+          str+='<th>'+roundTo(co_mark2[i]/co_mark2[0],2)+'</th>'
+          header+=roundTo(co_mark2[i]/co_mark2[0],2)+",";
+          var added=(co_mark1[i]-0)+(co_mark2[i]-0);
+          console.log(added);
+          str+='<th>'+added+'</th>'
 
-        header+=added+",";
-      }
-      header+="\n"
-  str+='</tr>'
-  console.log("Error Not here:4");
-  fs.appendFileSync('Download/Download'+num+'.csv',header);
-
-  for (var i = 0; i < (Number(count_table)+3); i++ ) {
-    str += '<tr>';
-      if(i<count_table){
-        str += '<td>' + '<input type="text"   id="RollNo'+i+'" name="RollNo'+i+'" value="'+data[i]['Enrollment No']+'" required>' + '</td>' ;
-        data[i]['Enrollment No'] = data[i]['Enrollment No'].trim();
-        var data_main= data[i]['Enrollment No']+",";
-
-        str += '<td>' + '<input type="text"   id="Name'+i+'" size="40" name="student_name'+i+'" value="'+data[i]['Name of Student']+'" required>' + '</td>' ;
-        data[i]['Name of Student'] = data[i]['Name of Student'].trim();
-        data_main+= data[i]['Name of Student']+",";
-
-        str += '<td>' + '<input type="number"  min=0 max=100 id="TW'+i+'" name="TW'+i+'" value="'+data[i]['TW']+'" required>' + '</td>';
-        data_main+= data[i]['TW']+",";
-
-        str += '<td>' + '<input type="number"  min=0 max=100 id="ESE'+i+'" name="ESE'+i+'"  value="'+data[i]['Practical']+'" required>' + '</td>';
-        data_main+= data[i]['Practical']+",";
-
-        // str += '<td>' + '<input type="number"  min=0 max=100 id="ESE'+i+'" name="ESE'+i+'" value="'+data[i]['ESE']+'" required>' + '</td>';
-        // data_main+= data[i]['ESE']+",";
-      }
-      else if(count_table==Number(i)){
-        console.log(Number(i));
-        str += '<td colspan ="4" >Number of students above threshold</td>' ;
-        data_main= ', Number of students above threshold , ,,,';
-      }
-      else if((Number(i)==(Number(count_table)+1))){
-        console.log(Number(i));
-        str += '<td colspan ="4" >Rounded Threshold</td>' ;
-        data_main= ', Rounded Threshold , ,,,';
-      }
-      else{
-        console.log(i);
-        str += '<td colspan ="4" >Attainment:</td>' ;
-        data_main= ', Attainment: , ,,,';
-      }
-      for (var j = 1; j <=co_num; j++ ) {
-        if(i<count_table){
-            str += '<td>' + '<input type="number"  min=0 max=100 id="CO'+j+'TW'+i+'" name="CO'+j+'TW'+i+'" value="'+(data[i]['TW']-0)*(roundTo(co_mark1[j]/co_mark1[0],2))+'"  disabled>' + '</td>';
-            data_main+=roundTo((data[i]['TW']-0)*(roundTo(co_mark1[j]/co_mark1[0],2)),2)+",";
-
-            str += '<td>' + '<input type="number"  min=0 max=100 id="CO'+j+'Practical'+i+'" name="CO'+j+'Practical'+i+'" value="'+(data[i]['Practical']-0)*(roundTo(co_mark2[j]/co_mark2[0],2))+'" disabled>' + '</td>';
-            data_main+=roundTo((data[i]['Practical']-0)*(roundTo(co_mark2[j]/co_mark2[0],2)),2)+",";
-
-            var Answer = roundTo((data[i]['TW']-0)*(roundTo(co_mark1[j]/co_mark1[0],2))+(data[i]['Practical']-0)*(roundTo(co_mark2[j]/co_mark2[0],2)),2);
-            str += '<td>' + '<input type="number"  min=0 max=100 id="CO'+j+'Answer'+i+'" name="CO'+j+'Answer'+i+'" value="'+Answer +'" disabled>' + '</td>';
-            console.log("Answer:"+Answer+"-------threshold:"+threshold[j-1]);
-            if(Answer>=threshold[j-1]){
-              final_data[j-1]++;
-            }
-            data_main+= Answer+",";
-          }
-        else if(count_table==i){
-          str+='<td></td>';
-          str+='<td></td>';
-          str+='<td>'+final_data[j-1]+'</td>';
-          data_main+=",,"+final_data[j-1]+",";
+          header+=added+",";
         }
-        else if ((Number(i)==(Number(count_table)+1))){
-          str+='<td></td>';
-          str+='<td></td>';
-          str+='<td>'+threshold[j-1]+'</td>';
-          data_main+=",,"+threshold[j-1]+",";
+        header+="\n"
+    str+='</tr>'
+    console.log("Error Not here:4");
+    fs.appendFileSync('Download/Download'+num+'.csv',header);
+
+    for (var i = 0; i < (Number(count_table)+3); i++ ) {
+      str += '<tr>';
+        if(i<count_table){
+          if(typeof data[i]['Enrollment No'] =='undefined' || typeof data[i]['Name of Student'] =='undefined'|| typeof data[i]['TW'] =='undefined'|| typeof data[i]['Practical'] =='undefined'){
+            var response_error='<h3><center>Oops! Incorrect Format of file!!<br>Please refer the sample file on home page<br>Check the coloumn names</center></h3>';
+            return new hbs.SafeString (response_error);
+          }
+          str += '<td>' + '<input type="text"   id="RollNo'+i+'" name="RollNo'+i+'" value="'+data[i]['Enrollment No']+'" required>' + '</td>' ;
+          data[i]['Enrollment No'] = data[i]['Enrollment No'].trim();
+          var data_main= data[i]['Enrollment No']+",";
+
+          str += '<td>' + '<input type="text"   id="Name'+i+'" size="40" name="student_name'+i+'" value="'+data[i]['Name of Student']+'" required>' + '</td>' ;
+          data[i]['Name of Student'] = data[i]['Name of Student'].trim();
+          data_main+= data[i]['Name of Student']+",";
+
+          str += '<td>' + '<input type="number"  min=0 max=100 id="TW'+i+'" name="TW'+i+'" value="'+data[i]['TW']+'" required>' + '</td>';
+          data_main+= data[i]['TW']+",";
+
+          str += '<td>' + '<input type="number"  min=0 max=100 id="ESE'+i+'" name="ESE'+i+'"  value="'+data[i]['Practical']+'" required>' + '</td>';
+          data_main+= data[i]['Practical']+",";
+
+          // str += '<td>' + '<input type="number"  min=0 max=100 id="ESE'+i+'" name="ESE'+i+'" value="'+data[i]['ESE']+'" required>' + '</td>';
+          // data_main+= data[i]['ESE']+",";
+        }
+        else if(count_table==Number(i)){
+          console.log(Number(i));
+          str += '<td colspan ="4" >Number of students above threshold</td>' ;
+          data_main= ', Number of students above threshold , ,,,';
+        }
+        else if((Number(i)==(Number(count_table)+1))){
+          console.log(Number(i));
+          str += '<td colspan ="4" >Rounded Threshold</td>' ;
+          data_main= ', Rounded Threshold , ,,,';
         }
         else{
-          str+='<td></td>';
-          str+='<td></td>';
-          str+='<td>'+final_data[j-1]/count_table+'</td>';
-          data_main+=",,"+(final_data[j-1]/count_table)*100+",";
+          console.log(i);
+          str += '<td colspan ="4" >Attainment:</td>' ;
+          data_main= ', Attainment: , ,,,';
         }
+        for (var j = 1; j <=co_num; j++ ) {
+          if(i<count_table){
+              str += '<td>' + '<input type="number"  min=0 max=100 id="CO'+j+'TW'+i+'" name="CO'+j+'TW'+i+'" value="'+(data[i]['TW']-0)*(roundTo(co_mark1[j]/co_mark1[0],2))+'"  disabled>' + '</td>';
+              data_main+=roundTo((data[i]['TW']-0)*(roundTo(co_mark1[j]/co_mark1[0],2)),2)+",";
+
+              str += '<td>' + '<input type="number"  min=0 max=100 id="CO'+j+'Practical'+i+'" name="CO'+j+'Practical'+i+'" value="'+(data[i]['Practical']-0)*(roundTo(co_mark2[j]/co_mark2[0],2))+'" disabled>' + '</td>';
+              data_main+=roundTo((data[i]['Practical']-0)*(roundTo(co_mark2[j]/co_mark2[0],2)),2)+",";
+
+              var Answer = roundTo((data[i]['TW']-0)*(roundTo(co_mark1[j]/co_mark1[0],2))+(data[i]['Practical']-0)*(roundTo(co_mark2[j]/co_mark2[0],2)),2);
+              str += '<td>' + '<input type="number"  min=0 max=100 id="CO'+j+'Answer'+i+'" name="CO'+j+'Answer'+i+'" value="'+Answer +'" disabled>' + '</td>';
+              console.log("Answer:"+Answer+"-------threshold:"+threshold[j-1]);
+              if(Answer>=threshold[j-1]){
+                final_data[j-1]++;
+              }
+              data_main+= Answer+",";
+            }
+          else if(count_table==i){
+            str+='<td></td>';
+            str+='<td></td>';
+            str+='<td>'+final_data[j-1]+'</td>';
+            data_main+=",,"+final_data[j-1]+",";
+          }
+          else if ((Number(i)==(Number(count_table)+1))){
+            str+='<td></td>';
+            str+='<td></td>';
+            str+='<td>'+threshold[j-1]+'</td>';
+            data_main+=",,"+threshold[j-1]+",";
+          }
+          else{
+            str+='<td></td>';
+            str+='<td></td>';
+            str+='<td>'+final_data[j-1]/count_table+'</td>';
+            data_main+=",,"+(final_data[j-1]/count_table)*100+",";
+          }
+        }
+        //console.log(threshold);
+        //console.log(final_data);
+        //console.log(data_main);
+        data_main+="\n";
+        console.log("NUM :"+num);
+        fs.appendFileSync('Download/Download'+num+'.csv',data_main);
+        str += '</tr>';
       }
-      //console.log(threshold);
-      //console.log(final_data);
-      //console.log(data_main);
-      data_main+="\n";
-      console.log("NUM :"+num);
-      fs.appendFileSync('Download/Download'+num+'.csv',data_main);
-      str += '</tr>';
-    }
-      str += '</table>';
-    if(co_num>0){
-      console.log('Download/Download'+num+'.csv');
-      str+='<input type="text" value="'+num+'" name="file_name" style="display:none;">'
-      str+=`<div class="btn_box"><input type="submit" class="submit_btn" value="Download CSV File" onclick = "javascript:form.action='/down';"></div>`;
-      }
+        str += '</table>';
+      if(co_num>0){
+        console.log('Download/Download'+num+'.csv');
+        str+='<input type="text" value="'+num+'" name="file_name" style="display:none;">'
+        str+=`<div class="btn_box"><input type="submit" class="submit_btn" value="Download CSV File" onclick = "javascript:form.action='/down';"></div>`;
+        }
   console.log("Error Not here:5");
   return new hbs.SafeString (str);
 });
