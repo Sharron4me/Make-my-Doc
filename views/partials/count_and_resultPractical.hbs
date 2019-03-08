@@ -4,7 +4,6 @@
       {{#if co_num}}
         <form action="'+{{file_path}}+'" method="post">
         {{tablePractical count_table co_num file_name CO_level CO_mark1 CO_mark2 }}
-        <div class="btn_box"><button type="submit" class="submit_btn"> Download File</button></div>
       {{else}}
         <form action="/resultPractical" method="post">
         {{tablePractical  count_table co_num file_name CO_level CO_mark1 CO_mark2 file_path}}
