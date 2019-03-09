@@ -1,7 +1,6 @@
 body{
     padding: 0px;
     margin: 0;
-
     font-family: 'Roboto Condensed', sans-serif;
 }
 .header{
@@ -74,4 +73,9 @@ table{
   font-size: 20px;
   bottom: 0;
   text-align: center;
+}
+
+Center{
+  font-weight: normal;
+  margin:5% 5%;
 }

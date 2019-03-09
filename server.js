@@ -788,6 +788,28 @@ app.post('/preresultPractical', function(req, res) {
 })
 
 
+app.use(function(req, res, next){
+  res.status(404);
+
+  // respond with html page
+  if (req.accepts('html')) {
+    console.log("User Tried to access:"+req.url);
+    url: req.url
+    res.render('Error.hbs');
+    return;
+  }
+
+  // respond with json
+  if (req.accepts('json')) {
+    res.send({ error: 'Not found' });
+    return;
+  }
+
+  // default to plain-text. send()
+  res.type('txt').send('Not found');
+});
+
+
 app.listen(port,()=>{
   console.log(`Server running on ${port}! `);
 });
